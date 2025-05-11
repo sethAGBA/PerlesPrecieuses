@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perles Précieuses - Boutique en ligne</title>
+    <style>
+        /* Réinitialisation CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Variables */
+        :root {
+            --couleur-primaire: #9c27b0;
+            --couleur-secondaire: #f3e5f5;
+            --couleur-accent: #6a1b9a;
+            --couleur-texte: #333333;
+            --couleur-claire: #ffffff;
+            --ombre: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--couleur-texte);
+            line-height: 1.6;
+        }
+
+        /* En-tête */
+        header {
+            background-color: var(--couleur-primaire);
+            color: white;
+            padding: 1rem;
+            box-shadow: var(--ombre);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #ffe082;
+        }
+
+        /* Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 1.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #ffe082;
+        }
+
+        .panier-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .compteur-panier {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #ff5722;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.75rem;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: white;
+        }
+
+        .mobile-nav {
+            display: none;
+            background-color: var(--couleur-primaire);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            box-shadow: var(--ombre);
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav ul {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mobile-nav li {
+            margin: 1rem 0;
+        }
+
+        .mobile-nav .panier-icon {
+            margin-top: 1rem;
+        }
+
+        /* Bannière */
+        .banniere {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/400');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+        }
+
+        .banniere h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .banniere p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--couleur-primaire);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--couleur-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Contenu principal */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .section-titre {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-titre h2 {
+            font-size: 2rem;
+            color: var(--couleur-primaire);
+            position: relative;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section-titre h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--couleur-primaire);
+        }
+
+        /* Filtres */
+        .filtres {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filtre-btn {
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--couleur-secondaire);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filtre-btn:hover, .filtre-btn.actif {
+            background-color: var(--couleur-primaire);
+            color: white;
+        }
+
+        /* Galerie de produits */
+        .galerie-produits {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .carte-produit {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--ombre);
+            transition: transform 0.3s;
+        }
+
+        .carte-produit:hover {
+            transform: translateY(-5px);
+        }
+
+        .produit-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .produit-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .carte-produit:hover .produit-image img {
+            transform: scale(1.05);
+        }
+
+        .produit-info {
+            padding: 1.5rem;
+        }
+
+        .produit-categorie {
+            font-size: 0.8rem;
+            color: #777;
+            margin-bottom: 0.5rem;
+        }
+
+        .produit-nom {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--couleur-texte);
+        }
+
+        .produit-prix {
+            font-weight: bold;
+            color: var(--couleur-primaire);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .produit-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .ajouter-panier {
+            background-color: var(--couleur-secondaire);
+            color: var(--couleur-primaire);
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius:  pixels;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .ajouter-panier:hover {
+            background-color: var(--couleur-primaire);
+            color: white;
+        }
+
+        .coeur-icon {
+            cursor: pointer;
+            color: #ccc;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .coeur-icon:hover, .coeur-icon.active {
+            color: #e91e63;
+        }
+
+        /* Section avantages */
+        .avantages {
+            background-color: var(--couleur-secondaire);
+            padding: 4rem 1rem;
+            margin: 4rem 0;
+        }
+
+        .avantages-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .avantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .avantage-carte {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: var(--ombre);
+        }
+
+        .avantage-icone {
+            font-size: 2.5rem;
+            color: var(--couleur-primaire);
+            margin-bottom: 1rem;
+        }
+
+        .avantage-titre {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Pied de page */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 4rem 1rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--couleur-primaire);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--couleur-primaire);
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 1rem;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--couleur-primaire);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Media queries */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 1rem;
+            }
+            
+            nav {
+                display: none;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .banniere h1 {
+                font-size: 2rem;
+            }
+            
+            .banniere p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Bouton retour en haut */
+        .retour-haut {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--couleur-primaire);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            box-shadow: var(--ombre);
+            z-index: 99;
+        }
+
+        .retour-haut.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- En-tête -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Perles<span>Précieuses</span></div>
+            <div class="hamburger">☰</div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Accueil</a></li>
+                    <li><a href="#">Boutique</a></li>
+                    <li><a href="#">Collections</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li class="panier-icon">
+                        <span>🛒</span>
+                        <div class="compteur-panier">0</div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="mobile-nav">
+                <ul>
+                    <li><a href="#" class="active">Accueil</a></li>
+                    <li><a href="#">Boutique</a></li>
+                    <li><a href="#">Collections</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li class="panier-icon">
+                        <span>🛒</span>
+                        <div class="compteur-panier">0</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Bannière -->
+    <section class="banniere">
+        <h1>Des perles uniques pour votre créativité</h1>
+        <p>Découvrez notre collection de perles artisanales de qualité pour tous vos projets créatifs</p>
+        <a href="#" class="btn">Explorer la boutique</a>
+    </section>
+
+    <!-- Contenu principal -->
+    <main>
+        <section class="produits-section">
+            <div class="section-titre">
+                <h2>Nos Collections</h2>
+                <p>Des perles soigneusement sélectionnées pour vos créations</p>
+            </div>
+
+            <!-- Filtres -->
+            <div class="filtres">
+                <button class="filtre-btn actif" data-categorie="tous">Tous</button>
+                <button class="filtre-btn" data-categorie="verre">Perles en verre</button>
+                <button class="filtre-btn" data-categorie="bois">Perles en bois</button>
+                <button class="filtre-btn" data-categorie="ceramique">Perles en céramique</button>
+                <button class="filtre-btn" data-categorie="metal">Perles métalliques</button>
+            </div>
+
+            <!-- Galerie de produits -->
+            <div class="galerie-produits">
+                <!-- Produit 1 -->
+                <div class="carte-produit" data-categorie="verre">
+                    <div class="produit-image">
+                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles en verre colorées">
+                    </div>
+                    <div class="produit-info">
+                        <div class="produit-categorie">Perles en verre</div>
+                        <h3 class="produit-nom">Perles en verre colorées</h3>
+                        <div class="produit-prix">12,99 FCFA</div>
+                        <div class="produit-actions">
+                            <button class="ajouter-panier">Ajouter au panier</button>
+                            <span class="coeur-icon">❤</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produit 2 -->
+                <div class="carte-produit" data-categorie="bois">
+                    <div class="produit-image">
+                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles en bois naturel">
+                    </div>
+                    <div class="produit-info">
+                        <div class="produit-categorie">Perles en bois</div>
+                        <h3 class="produit-nom">Perles en bois naturel</h3>
+                        <div class="produit-prix">9,99 FCFA</div>
+                        <div class="produit-actions">
+                            <button class="ajouter-panier">Ajouter au panier</button>
+                            <span class="coeur-icon">❤</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produit 3 -->
+                <div class="carte-produit" data-categorie="ceramique">
+                    <div class="produit-image">
+                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles en céramique peintes à la main">
+                    </div>
+                    <div class="produit-info">
+                        <div class="produit-categorie">Perles en céramique</div>
+                        <h3 class="produit-nom">Perles peintes à la main</h3>
+                        <div class="produit-prix">15,99 FCFA</div>
+                        <div class="produit-actions">
+                            <button class="ajouter-panier">Ajouter au panier</button>
+                            <span class="coeur-icon">❤</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produit 4 -->
+                <div class="carte-produit" data-categorie="metal">
+                    <div class="produit-image">
+                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles métalliques dorées">
+                    </div>
+                    <div class="produit-info">
+                        <div class="produit-categorie">Perles métalliques</div>
+                        <h3 class="produit-nom">Perles dorées</h3>
+                        <div class="produit-prix">18,99 FCFA</div>
+                        <div class="produit-actions">
+                            <button class="ajouter-panier">Ajouter au panier</button>
+                            <span class="coeur-icon">❤</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produit 5 -->
+                <div class="carte-produit" data-categorie="verre">
+                    <div class="produit-image">
+                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles de Murano">
+                    </div>
+                    <div class="produit-info">
+                        <div class="produit-categorie">Perles en verre</div>
+                        <h3 class="produit-nom">Perles de Murano</h3>
+                        <div class="produit-prix">24,99 FCFA</div>
+                        <div class="produit-actions">
+                            <button class="ajouter-panier">Ajouter au panier</button>
+                            <span class="coeur-icon">❤</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produit 6 -->
+                <div class="carte-produit" data-categorie="bois">
+                    <div class="produit-image">
+                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles en bois colorées">
+                    </div>
+                    <div class="produit-info">
+                        <div class="produit-categorie">Perles en bois</div>
+                        <h3 class="produit-nom">Perles en bois colorées</h3>
+                        <div class="produit-prix">11,99 FCFA</div>
+                        <div class="produit-actions">
+                            <button class="ajouter-panier">Ajouter au panier</button>
+                            <span class="coeur-icon">❤</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produit 7 -->
+                <div class="carte-produit" data-categorie="ceramique">
+                    <div class="produit-image">
+                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles en céramique blanches">
+                    </div>
+                    <div class="produit-info">
+                        <div class="produit-categorie">Perles en céramique</div>
+                        <h3 class="produit-nom">Perles en céramique blanches</h3>
+                        <div class="produit-prix">14,99 FCFA</div>
+                        <div class="produit-actions">
+                            <button class="ajouter-panier">Ajouter au panier</button>
+                            <span class="coeur-icon">❤</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produit 8 -->
+                <div class="carte-produit" data-categorie="metal">
+                    <div class="produit-image">
+                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles métalliques argentées">
+                    </div>
+                    <div class="produit-info">
+                        <div class="produit-categorie">Perles métalliques</div>
+                        <h3 class="produit-nom">Perles argentées</h3>
+                        <div class="produit-prix">16,99 FCFA</div>
+                        <div class="produit-actions">
+                            <button class="ajouter-panier">Ajouter au panier</button>
+                            <span class="coeur-icon">❤</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Section avantages -->
+    <section class="avantages">
+        <div class="avantages-container">
+            <div class="section-titre">
+                <h2>Pourquoi nous choisir ?</h2>
+                <p>Nos valeurs et engagements pour vous offrir le meilleur</p>
+            </div>
+            <div class="avantages-grid">
+                <div class="avantage-carte">
+                    <div class="avantage-icone">🌿</div>
+                    <h3 class="avantage-titre">Matériaux durables</h3>
+                    <p>Nos perles sont sélectionnées pour leur qualité et leur provenance respectueuse de l'environnement.</p>
+                </div>
+                <div class="avantage-carte">
+                    <div class="avantage-icone">🚚</div>
+                    <h3 class="avantage-titre">Livraison rapide</h3>
+                    <p>Nous expédions votre commande sous 24h pour que vous puissiez commencer vos créations rapidement.</p>
+                </div>
+                <div class="avantage-carte">
+                    <div class="avantage-icone">💯</div>
+                    <h3 class="avantage-titre">Qualité garantie</h3>
+                    <p>Chaque perle est vérifiée pour vous garantir une qualité optimale pour vos créations.</p>
+                </div>
+                <div class="avantage-carte">
+                    <div class="avantage-icone">💖</div>
+                    <h3 class="avantage-titre">Service client</h3>
+                    <p>Notre équipe passionnée est à votre écoute pour vous conseiller dans vos projets créatifs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pied de page -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Perles Précieuses</h3>
+                <p>Votre destination pour des perles de qualité et des accessoires de création de bijoux uniques.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">f</a>
+                    <a href="#" class="social-icon">in</a>
+                    <a href="#" class="social-icon">ig</a>
+                    <a href="#" class="social-icon">p</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Liens utiles</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Boutique</a></li>
+                    <li><a href="#">Collections</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Aide</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Expédition</a></li>
+                    <li><a href="#">Retours</a></li>
+                    <li><a href="#">Conditions générales</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li>📍 15 Rue des Artisans, 75001 KARA</li>
+                    <li>📞 01 23 45 67 89</li>
+                    <li>✉️ contact@perlesprecieuses.fr</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Perles Précieuses. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Bouton retour en haut -->
+    <div class="retour-haut">↑</div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hamburger menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
+
+            hamburger.addEventListener('click', function() {
+                mobileNav.classList.toggle('active');
+                this.textContent = mobileNav.classList.contains('active') ? '✖' : '☰';
+            });
+
+            // Close mobile nav when clicking a link
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNav.classList.remove('active');
+                    hamburger.textContent = '☰';
+                });
+            });
+
+            // Fonctionnalité de filtrage des produits
+            const boutonsFiltres = document.querySelectorAll('.filtre-btn');
+            const produits = document.querySelectorAll('.carte-produit');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Retirer la classe active de tous les boutons
+                    boutonsFiltres.forEach(b => b.classList.remove('actif'));
+                    // Ajouter la classe active au bouton cliqué
+                    this.classList.add('actif');
+                    
+                    // Filtrer les produits
+                    const categorie = this.dataset.categorie;
+                    
+                    produits.forEach(produit => {
+                        if (categorie === 'tous' || produit.dataset.categorie === categorie) {
+                            produit.style.display = 'block';
+                        } else {
+                            produit.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Fonctionnalité d'ajout au panier
+            const boutonsPanier = document.querySelectorAll('.ajouter-panier');
+            const compteurPanier = document.querySelector('.compteur-panier');
+            let nombreArticles = 0;
+            
+            boutonsPanier.forEach(bouton => {
+                bouton.addEventListener('click', function() {
+                    nombreArticles++;
+                    compteurPanier.textContent = nombreArticles;
+                    
+                    // Effet de confirmation
+                    this.textContent = 'Ajouté !';
+                    this.style.backgroundColor = '#4CAF50';
+                    this.style.color = 'white';
+                    
+                    setTimeout(() => {
+                        this.textContent = 'Ajouter au panier';
+                        this.style.backgroundColor = '';
+                        this.style.color = '';
+                    }, 1500);
+                });
+            });
+            
+            // Fonctionnalité des favoris
+            const boutonsFavoris = document.querySelectorAll('.coeur-icon');
+            
+            boutonsFavoris.forEach(bouton => {
+                bouton.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    if (this.classList.contains('active')) {
+                        this.style.color = '#e91e63';
+                    } else {
+                        this.style.color = '#ccc';
+                    }
+                });
+            });
+            
+            // Bouton retour en haut
+            const boutonRetourHaut = document.querySelector('.retour-haut');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    boutonRetourHaut.classList.add('visible');
+                } else {
+                    boutonRetourHaut.classList.remove('visible');
+                }
+            });
+            
+            boutonRetourHaut.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
