@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perles Précieuses - Boutique en ligne</title>
+    <meta name="description" content="Découvrez notre collection de perles artisanales de qualité pour tous vos projets créatifs.">
+    <meta name="keywords" content="perles, bijoux, artisanat, créatif, boutique en ligne">
+    <meta name="author" content="Perles Précieuses">
+    <meta name="theme-color" content="#9c27b0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <style>
         /* Réinitialisation CSS */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
 
         /* Variables */
@@ -27,6 +33,7 @@
             background-color: #f9f9f9;
             color: var(--couleur-texte);
             line-height: 1.6;
+            padding-top: 70px;
         }
 
         /* En-tête */
@@ -38,6 +45,7 @@
             position: fixed;
             width: 100%;
             z-index: 100;
+            top: 0;
         }
 
         .header-container {
@@ -46,10 +54,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 1rem;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
         }
 
@@ -57,30 +66,81 @@
             color: #ffe082;
         }
 
-        /* Navigation */
-        nav ul {
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100%;
+            background-color: var(--couleur-primaire);
+            padding: 2rem 1rem;
+            transition: right 0.3s ease;
+            z-index: 200;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .close-sidebar {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: none;
+        }
+
+        .sidebar nav ul {
             display: flex;
+            flex-direction: column;
             list-style: none;
+            margin-top: 1rem;
         }
 
-        nav li {
-            margin-left: 1.5rem;
+        .sidebar nav li {
+            margin: 0.8rem 0;
         }
 
-        nav a {
+        .sidebar nav a {
             color: white;
             text-decoration: none;
-            transition: color 0.3s;
             font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 4px;
         }
 
-        nav a:hover {
+        .sidebar nav a:hover {
             color: #ffe082;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .panier-icon {
             position: relative;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .compteur-panier {
@@ -98,45 +158,36 @@
             font-size: 0.75rem;
         }
 
-        /* Hamburger Menu */
-        .hamburger {
-            display: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: white;
-        }
-
-        .mobile-nav {
-            display: none;
-            background-color: var(--couleur-primaire);
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            padding: 1rem;
-            box-shadow: var(--ombre);
-        }
-
-        .mobile-nav.active {
+        /* Desktop Navigation */
+        .desktop-nav {
             display: block;
         }
 
-        .mobile-nav ul {
-            flex-direction: column;
+        .desktop-nav ul {
+            display: flex;
+            list-style: none;
             align-items: center;
         }
 
-        .mobile-nav li {
-            margin: 1rem 0;
+        .desktop-nav li {
+            margin-left: 1.5rem;
         }
 
-        .mobile-nav .panier-icon {
-            margin-top: 1rem;
+        .desktop-nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+            padding: 0.5rem 0;
+        }
+
+        .desktop-nav a:hover {
+            color: #ffe082;
         }
 
         /* Bannière */
         .banniere {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/400');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./images/collier-perles-tahiti-.jpg');
             background-size: cover;
             background-position: center;
             height: 400px;
@@ -146,11 +197,11 @@
             align-items: center;
             text-align: center;
             color: white;
-            padding-top: 80px;
+            padding: 1rem;
         }
 
         .banniere h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
@@ -159,6 +210,7 @@
             font-size: 1.2rem;
             max-width: 800px;
             margin-bottom: 2rem;
+            padding: 0 1rem;
         }
 
         .btn {
@@ -172,6 +224,7 @@
             transition: all 0.3s;
             border: none;
             cursor: pointer;
+            font-size: 1rem;
         }
 
         .btn:hover {
@@ -191,7 +244,7 @@
             text-align: center;
             margin-bottom: 2.5rem;
         }
-        
+
         .section-titre h2 {
             font-size: 2rem;
             color: var(--couleur-primaire);
@@ -199,7 +252,7 @@
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
         }
-        
+
         .section-titre h2::after {
             content: '';
             position: absolute;
@@ -217,10 +270,11 @@
             justify-content: center;
             margin-bottom: 2rem;
             flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .filtre-btn {
-            margin: 0.5rem;
+            margin: 0.25rem;
             padding: 0.5rem 1rem;
             background-color: var(--couleur-secondaire);
             border: none;
@@ -228,6 +282,7 @@
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .filtre-btn:hover, .filtre-btn.actif {
@@ -239,7 +294,7 @@
         .galerie-produits {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .carte-produit {
@@ -271,7 +326,7 @@
         }
 
         .produit-info {
-            padding: 1.5rem;
+            padding: 1.25rem;
         }
 
         .produit-categorie {
@@ -281,7 +336,7 @@
         }
 
         .produit-nom {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 0.5rem;
             color: var(--couleur-texte);
         }
@@ -296,6 +351,7 @@
         .produit-actions {
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .ajouter-panier {
@@ -303,10 +359,11 @@
             color: var(--couleur-primaire);
             padding: 0.5rem 1rem;
             border: none;
-            border-radius:  pixels;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
+            font-size: 0.9rem;
         }
 
         .ajouter-panier:hover {
@@ -319,6 +376,7 @@
             color: #ccc;
             font-size: 1.2rem;
             transition: all 0.3s;
+            padding: 0.5rem;
         }
 
         .coeur-icon:hover, .coeur-icon.active {
@@ -328,8 +386,8 @@
         /* Section avantages */
         .avantages {
             background-color: var(--couleur-secondaire);
-            padding: 4rem 1rem;
-            margin: 4rem 0;
+            padding: 3rem 1rem;
+            margin: 3rem 0;
         }
 
         .avantages-container {
@@ -340,12 +398,12 @@
         .avantages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .avantage-carte {
             background-color: white;
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 10px;
             text-align: center;
             box-shadow: var(--ombre);
@@ -359,14 +417,14 @@
 
         .avantage-titre {
             margin-bottom: 1rem;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
         }
 
         /* Pied de page */
         footer {
             background-color: #333;
             color: white;
-            padding: 4rem 1rem 2rem;
+            padding: 3rem 1rem 2rem;
         }
 
         .footer-container {
@@ -379,7 +437,7 @@
 
         .footer-section h3 {
             margin-bottom: 1.5rem;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             position: relative;
             padding-bottom: 0.5rem;
         }
@@ -406,6 +464,7 @@
             color: #ccc;
             text-decoration: none;
             transition: color 0.3s;
+            font-size: 0.9rem;
         }
 
         .footer-links a:hover {
@@ -415,18 +474,20 @@
         .social-links {
             display: flex;
             margin-top: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .social-icon {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background-color: #444;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 1rem;
             transition: all 0.3s;
+            font-size: 0.9rem;
         }
 
         .social-icon:hover {
@@ -436,36 +497,11 @@
 
         .copyright {
             text-align: center;
-            margin-top: 3rem;
+            margin-top: 2rem;
             padding-top: 1.5rem;
             border-top: 1px solid #444;
             color: #999;
-            font-size: 0.9rem;
-        }
-
-        /* Media queries */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: row;
-                justify-content: space-between;
-                padding: 1rem;
-            }
-            
-            nav {
-                display: none;
-            }
-            
-            .hamburger {
-                display: block;
-            }
-            
-            .banniere h1 {
-                font-size: 2rem;
-            }
-            
-            .banniere p {
-                font-size: 1rem;
-            }
+            font-size: 0.85rem;
         }
 
         /* Bouton retour en haut */
@@ -475,8 +511,8 @@
             right: 20px;
             background-color: var(--couleur-primaire);
             color: white;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -486,10 +522,253 @@
             transition: all 0.3s;
             box-shadow: var(--ombre);
             z-index: 99;
+            font-size: 1.2rem;
         }
 
         .retour-haut.visible {
             opacity: 1;
+        }
+
+        /* Overlay pour le menu mobile */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 150;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .banniere h1 {
+                font-size: 2.2rem;
+            }
+            
+            .banniere p {
+                font-size: 1.1rem;
+            }
+            
+            .galerie-produits {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0.5rem 1rem;
+            }
+            
+            .desktop-nav {
+                display: none;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .close-sidebar {
+                display: block;
+            }
+            
+            .banniere {
+                height: 350px;
+            }
+            
+            .banniere h1 {
+                font-size: 2rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .banniere p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.3rem;
+            }
+            
+            .section-titre h2 {
+                font-size: 1.8rem;
+            }
+            
+            .filtres {
+                justify-content: flex-start;
+            }
+            
+            .filtre-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+            
+            .galerie-produits {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+            
+            .produit-info {
+                padding: 1rem;
+            }
+            
+            .produit-nom {
+                font-size: 1rem;
+            }
+            
+            .produit-prix {
+                font-size: 1rem;
+            }
+            
+            .ajouter-panier {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+            
+            .avantages {
+                padding: 2rem 1rem;
+                margin: 2rem 0;
+            }
+            
+            .avantage-carte {
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo {
+                font-size: 1.3rem;
+            }
+            
+            .banniere {
+                height: 300px;
+            }
+            
+            .banniere h1 {
+                font-size: 1.6rem;
+            }
+            
+            .banniere p {
+                font-size: 0.9rem;
+                margin-bottom: 1.25rem;
+            }
+            
+            .section-titre h2 {
+                font-size: 1.5rem;
+            }
+            
+            .galerie-produits {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            
+            .produit-image {
+                height: 180px;
+            }
+            
+            .avantages-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .footer-section {
+                margin-bottom: 1rem;
+            }
+            
+            .retour-haut {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .banniere h1 {
+                font-size: 1.4rem;
+            }
+            
+            .btn {
+                padding: 0.6rem 1.1rem;
+                font-size: 0.9rem;
+            }
+            
+            .sidebar {
+                width: 250px;
+            }
+        }
+
+        .voir-plus-btn {
+            display: inline-block;
+            margin: 2rem auto 0 auto;
+            padding: 0.7rem 2.2rem;
+            background: linear-gradient(90deg, var(--couleur-primaire), var(--couleur-accent));
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .voir-plus-btn:hover {
+            background: linear-gradient(90deg, var(--couleur-accent), var(--couleur-primaire));
+            transform: translateY(-2px) scale(1.04);
+        }
+
+        .citation-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 3rem 0 2rem 0;
+            padding: 0;
+        }
+        .citation-section .quote-icon {
+            font-size: 2.5rem;
+            color: var(--couleur-accent);
+            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .citation-section blockquote {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--couleur-primaire);
+            background: linear-gradient(90deg, #f3e5f5 60%, #fff 100%);
+            border-left: 6px solid var(--couleur-accent);
+            border-radius: 12px;
+            padding: 1.5rem 2.5rem;
+            box-shadow: 0 4px 16px rgba(156,39,176,0.08);
+            max-width: 700px;
+            margin: 0 auto;
+            letter-spacing: 0.5px;
+            transition: box-shadow 0.3s;
+            text-align: center;
+        }
+        .citation-section blockquote:hover {
+            box-shadow: 0 8px 24px rgba(156,39,176,0.15);
+        }
+        @media (max-width: 600px) {
+            .citation-section blockquote {
+                font-size: 1.1rem;
+                padding: 1rem 1.2rem;
+            }
+            .citation-section .quote-icon {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -497,9 +776,9 @@
     <!-- En-tête -->
     <header>
         <div class="header-container">
-            <div class="logo">Perles<span>Précieuses</span></div>
-            <div class="hamburger">☰</div>
-            <nav>
+            <div class="logo">Jeranie's<span>pearls </span></div>
+            <button class="hamburger">☰</button>
+            <nav class="desktop-nav">
                 <ul>
                     <li><a href="#" class="active">Accueil</a></li>
                     <li><a href="#">Boutique</a></li>
@@ -512,176 +791,118 @@
                     </li>
                 </ul>
             </nav>
-            <div class="mobile-nav">
-                <ul>
-                    <li><a href="#" class="active">Accueil</a></li>
-                    <li><a href="#">Boutique</a></li>
-                    <li><a href="#">Collections</a></li>
-                    <li><a href="#">À propos</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li class="panier-icon">
-                        <span>🛒</span>
-                        <div class="compteur-panier">0</div>
-                    </li>
-                </ul>
-            </div>
         </div>
     </header>
 
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button class="close-sidebar">×</button>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Accueil</a></li>
+                <li><a href="#">Boutique</a></li>
+                <li><a href="#">Collections</a></li>
+                <li><a href="#">À propos</a></li>
+                <li><a href="#">Contact</a></li>
+                <li class="panier-icon">
+                    <span>🛒 Panier</span>
+                    <div class="compteur-panier">0</div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Overlay pour le menu mobile -->
+    <div class="overlay"></div>
+
     <!-- Bannière -->
     <section class="banniere">
-        <h1>Des perles uniques pour votre créativité</h1>
-        <p>Découvrez notre collection de perles artisanales de qualité pour tous vos projets créatifs</p>
+        <h1>Jeranie's pearls </h1>
+        <p>Est une marque spécialisée dans la création artisanale des accessoires en perles faits main. Chaque pièce est imaginée et conçue avec soin, créativité amour du détail, et patience. De la perle à l'accessoire final, tout est soigneusement assemblé pour donner vie à de créations uniques, élégantes et pleines de charme. </p>
         <a href="#" class="btn">Explorer la boutique</a>
     </section>
 
     <!-- Contenu principal -->
     <main>
-        <section class="produits-section">
+        <!-- SECTION SACS -->
+        <section class="produits-section" id="section-sacs">
             <div class="section-titre">
-                <h2>Nos Collections</h2>
-                <p>Des perles soigneusement sélectionnées pour vos créations</p>
+                <h2>Nos Sacs</h2>
             </div>
-
-            <!-- Filtres -->
-            <div class="filtres">
-                <button class="filtre-btn actif" data-categorie="tous">Tous</button>
-                <button class="filtre-btn" data-categorie="verre">Perles en verre</button>
-                <button class="filtre-btn" data-categorie="bois">Perles en bois</button>
-                <button class="filtre-btn" data-categorie="ceramique">Perles en céramique</button>
-                <button class="filtre-btn" data-categorie="metal">Perles métalliques</button>
-            </div>
-
-            <!-- Galerie de produits -->
             <div class="galerie-produits">
-                <!-- Produit 1 -->
-                <div class="carte-produit" data-categorie="verre">
-                    <div class="produit-image">
-                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles en verre colorées">
-                    </div>
-                    <div class="produit-info">
-                        <div class="produit-categorie">Perles en verre</div>
-                        <h3 class="produit-nom">Perles en verre colorées</h3>
-                        <div class="produit-prix">12,99 FCFA</div>
-                        <div class="produit-actions">
-                            <button class="ajouter-panier">Ajouter au panier</button>
-                            <span class="coeur-icon">❤</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produit 2 -->
-                <div class="carte-produit" data-categorie="bois">
-                    <div class="produit-image">
-                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles en bois naturel">
-                    </div>
-                    <div class="produit-info">
-                        <div class="produit-categorie">Perles en bois</div>
-                        <h3 class="produit-nom">Perles en bois naturel</h3>
-                        <div class="produit-prix">9,99 FCFA</div>
-                        <div class="produit-actions">
-                            <button class="ajouter-panier">Ajouter au panier</button>
-                            <span class="coeur-icon">❤</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produit 3 -->
-                <div class="carte-produit" data-categorie="ceramique">
-                    <div class="produit-image">
-                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles en céramique peintes à la main">
-                    </div>
-                    <div class="produit-info">
-                        <div class="produit-categorie">Perles en céramique</div>
-                        <h3 class="produit-nom">Perles peintes à la main</h3>
-                        <div class="produit-prix">15,99 FCFA</div>
-                        <div class="produit-actions">
-                            <button class="ajouter-panier">Ajouter au panier</button>
-                            <span class="coeur-icon">❤</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produit 4 -->
-                <div class="carte-produit" data-categorie="metal">
-                    <div class="produit-image">
-                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles métalliques dorées">
-                    </div>
-                    <div class="produit-info">
-                        <div class="produit-categorie">Perles métalliques</div>
-                        <h3 class="produit-nom">Perles dorées</h3>
-                        <div class="produit-prix">18,99 FCFA</div>
-                        <div class="produit-actions">
-                            <button class="ajouter-panier">Ajouter au panier</button>
-                            <span class="coeur-icon">❤</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produit 5 -->
-                <div class="carte-produit" data-categorie="verre">
-                    <div class="produit-image">
-                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles de Murano">
-                    </div>
-                    <div class="produit-info">
-                        <div class="produit-categorie">Perles en verre</div>
-                        <h3 class="produit-nom">Perles de Murano</h3>
-                        <div class="produit-prix">24,99 FCFA</div>
-                        <div class="produit-actions">
-                            <button class="ajouter-panier">Ajouter au panier</button>
-                            <span class="coeur-icon">❤</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produit 6 -->
-                <div class="carte-produit" data-categorie="bois">
-                    <div class="produit-image">
-                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles en bois colorées">
-                    </div>
-                    <div class="produit-info">
-                        <div class="produit-categorie">Perles en bois</div>
-                        <h3 class="produit-nom">Perles en bois colorées</h3>
-                        <div class="produit-prix">11,99 FCFA</div>
-                        <div class="produit-actions">
-                            <button class="ajouter-panier">Ajouter au panier</button>
-                            <span class="coeur-icon">❤</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produit 7 -->
-                <div class="carte-produit" data-categorie="ceramique">
-                    <div class="produit-image">
-                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles en céramique blanches">
-                    </div>
-                    <div class="produit-info">
-                        <div class="produit-categorie">Perles en céramique</div>
-                        <h3 class="produit-nom">Perles en céramique blanches</h3>
-                        <div class="produit-prix">14,99 FCFA</div>
-                        <div class="produit-actions">
-                            <button class="ajouter-panier">Ajouter au panier</button>
-                            <span class="coeur-icon">❤</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produit 8 -->
-                <div class="carte-produit" data-categorie="metal">
-                    <div class="produit-image">
-                        <img src="./images/collier-perles-tahiti-.jpg" alt="Perles métalliques argentées">
-                    </div>
-                    <div class="produit-info">
-                        <div class="produit-categorie">Perles métalliques</div>
-                        <h3 class="produit-nom">Perles argentées</h3>
-                        <div class="produit-prix">16,99 FCFA</div>
-                        <div class="produit-actions">
-                            <button class="ajouter-panier">Ajouter au panier</button>
-                            <span class="coeur-icon">❤</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="carte-produit" data-categorie="sac"><div class="produit-image"><img src="./images/sacs/1.jpeg" alt="Sac artisanal 1"></div><div class="produit-info"><div class="produit-categorie">Sacs artisanaux</div><h3 class="produit-nom">Sac artisanal 1</h3><div class="produit-prix">19,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="sac"><div class="produit-image"><img src="./images/sacs/2.jpeg" alt="Sac artisanal 2"></div><div class="produit-info"><div class="produit-categorie">Sacs artisanaux</div><h3 class="produit-nom">Sac artisanal 2</h3><div class="produit-prix">21,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="sac"><div class="produit-image"><img src="./images/sacs/3.jpeg" alt="Sac artisanal 3"></div><div class="produit-info"><div class="produit-categorie">Sacs artisanaux</div><h3 class="produit-nom">Sac artisanal 3</h3><div class="produit-prix">22,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="sac"><div class="produit-image"><img src="./images/sacs/4.jpeg" alt="Sac artisanal 4"></div><div class="produit-info"><div class="produit-categorie">Sacs artisanaux</div><h3 class="produit-nom">Sac artisanal 4</h3><div class="produit-prix">18,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="sac" style="display:none"><div class="produit-image"><img src="./images/sacs/5.jpeg" alt="Sac artisanal 5"></div><div class="produit-info"><div class="produit-categorie">Sacs artisanaux</div><h3 class="produit-nom">Sac artisanal 5</h3><div class="produit-prix">24,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="sac" style="display:none"><div class="produit-image"><img src="./images/sacs/6.jpeg" alt="Sac artisanal 6"></div><div class="produit-info"><div class="produit-categorie">Sacs artisanaux</div><h3 class="produit-nom">Sac artisanal 6</h3><div class="produit-prix">20,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
             </div>
+        </section>
+        <!-- SECTION BRACELETS -->
+        <section class="produits-section" id="section-bracelets">
+            <div class="section-titre">
+                <h2>Nos Bracelets</h2>
+            </div>
+            <div class="galerie-produits">
+                <!-- Toutes les images, aucune cachée -->
+                <div class="carte-produit" data-categorie="bracelet"><div class="produit-image"><img src="./images/perle _ bracelets/8 (1).jpeg" alt="Bracelet 1"></div><div class="produit-info"><div class="produit-categorie">Bracelets</div><h3 class="produit-nom">Bracelet 1</h3><div class="produit-prix">12,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="bracelet"><div class="produit-image"><img src="./images/perle _ bracelets/8 (2).jpeg" alt="Bracelet 2"></div><div class="produit-info"><div class="produit-categorie">Bracelets</div><h3 class="produit-nom">Bracelet 2</h3><div class="produit-prix">12,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="bracelet"><div class="produit-image"><img src="./images/perle _ bracelets/8 (3).jpeg" alt="Bracelet 3"></div><div class="produit-info"><div class="produit-categorie">Bracelets</div><h3 class="produit-nom">Bracelet 3</h3><div class="produit-prix">12,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="bracelet"><div class="produit-image"><img src="./images/perle _ bracelets/8 (4).jpeg" alt="Bracelet 4"></div><div class="produit-info"><div class="produit-categorie">Bracelets</div><h3 class="produit-nom">Bracelet 4</h3><div class="produit-prix">12,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="bracelet" style="display:none"><div class="produit-image"><img src="./images/perle _ bracelets/8 (5).jpeg" alt="Bracelet 5"></div><div class="produit-info"><div class="produit-categorie">Bracelets</div><h3 class="produit-nom">Bracelet 5</h3><div class="produit-prix">12,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+            </div>
+        </section>
+        <!-- SECTION PORTE-CLÉS -->
+        <section class="produits-section" id="section-portecles">
+            <div class="section-titre">
+                <h2>Nos Porte-clés</h2>
+            </div>
+            <div class="galerie-produits">
+                <div class="carte-produit" data-categorie="porte-cle"><div class="produit-image"><img src="./images/porte clés/WhatsApp Image 2025-06-04 at 09.26.01.jpeg" alt="Porte-clé 1"></div><div class="produit-info"><div class="produit-categorie">Porte-clés</div><h3 class="produit-nom">Porte-clé 1</h3><div class="produit-prix">7,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-cle"><div class="produit-image"><img src="./images/porte clés/WhatsApp Image 2025-06-04 at 09.26.03.jpeg" alt="Porte-clé 2"></div><div class="produit-info"><div class="produit-categorie">Porte-clés</div><h3 class="produit-nom">Porte-clé 2</h3><div class="produit-prix">7,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-cle"><div class="produit-image"><img src="./images/porte clés/WhatsApp Image 2025-06-04 at 09.26.06.jpeg" alt="Porte-clé 3"></div><div class="produit-info"><div class="produit-categorie">Porte-clés</div><h3 class="produit-nom">Porte-clé 3</h3><div class="produit-prix">7,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-cle"><div class="produit-image"><img src="./images/porte clés/WhatsApp Image 2025-06-04 at 09.26.07.jpeg" alt="Porte-clé 4"></div><div class="produit-info"><div class="produit-categorie">Porte-clés</div><h3 class="produit-nom">Porte-clé 4</h3><div class="produit-prix">7,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+            </div>
+        </section>
+        <!-- SECTION PORTE-STYLOS -->
+        <section class="produits-section" id="section-portestylos">
+            <div class="section-titre">
+                <h2>Nos Porte-stylos</h2>
+            </div>
+            <div class="galerie-produits">
+                <div class="carte-produit" data-categorie="porte-stylo"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-28 at 09.31.49 (1).jpeg" alt="Porte-stylo 1"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 1</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-stylo"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-28 at 09.31.49.jpeg" alt="Porte-stylo 2"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 2</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-stylo"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-28 at 09.25.16.jpeg" alt="Porte-stylo 3"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 3</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-stylo"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-28 at 09.25.11.jpeg" alt="Porte-stylo 4"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 4</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-stylo" style="display:none"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-28 at 09.19.18.jpeg" alt="Porte-stylo 5"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 5</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-stylo" style="display:none"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-28 at 09.19.16.jpeg" alt="Porte-stylo 6"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 6</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-stylo" style="display:none"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-28 at 09.19.15.jpeg" alt="Porte-stylo 7"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 7</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-stylo" style="display:none"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-28 at 09.19.12 (1).jpeg" alt="Porte-stylo 8"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 8</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-stylo" style="display:none"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-28 at 09.19.12.jpeg" alt="Porte-stylo 9"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 9</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-stylo" style="display:none"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-25 at 17.03.05 (1).jpeg" alt="Porte-stylo 10"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 10</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="porte-stylo" style="display:none"><div class="produit-image"><img src="./images/porte stylo/WhatsApp Image 2025-05-25 at 17.03.05.jpeg" alt="Porte-stylo 11"></div><div class="produit-info"><div class="produit-categorie">Porte-stylos</div><h3 class="produit-nom">Porte-stylo 11</h3><div class="produit-prix">9,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+            </div>
+        </section>
+        <!-- SECTION PERLES BAYA -->
+        <section class="produits-section" id="section-perlesbaya">
+            <div class="section-titre">
+                <h2>Nos Perles Baya</h2>
+            </div>
+            <div class="galerie-produits">
+                <div class="carte-produit" data-categorie="perles-baya"><div class="produit-image"><img src="./images/Perles baya/1.jpeg" alt="Perle Baya 1"></div><div class="produit-info"><div class="produit-categorie">Perles Baya</div><h3 class="produit-nom">Perle Baya 1</h3><div class="produit-prix">5,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="perles-baya"><div class="produit-image"><img src="./images/Perles baya/2.jpeg" alt="Perle Baya 2"></div><div class="produit-info"><div class="produit-categorie">Perles Baya</div><h3 class="produit-nom">Perle Baya 2</h3><div class="produit-prix">5,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="perles-baya"><div class="produit-image"><img src="./images/Perles baya/3.jpeg" alt="Perle Baya 3"></div><div class="produit-info"><div class="produit-categorie">Perles Baya</div><h3 class="produit-nom">Perle Baya 3</h3><div class="produit-prix">5,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="perles-baya"><div class="produit-image"><img src="./images/Perles baya/4.jpeg" alt="Perle Baya 4"></div><div class="produit-info"><div class="produit-categorie">Perles Baya</div><h3 class="produit-nom">Perle Baya 4</h3><div class="produit-prix">5,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+                <div class="carte-produit" data-categorie="perles-baya" style="display:none"><div class="produit-image"><img src="./images/Perles baya/5.jpeg" alt="Perle Baya 5"></div><div class="produit-info"><div class="produit-categorie">Perles Baya</div><h3 class="produit-nom">Perle Baya 5</h3><div class="produit-prix">5,99 FCFA</div><div class="produit-actions"><button class="ajouter-panier">Ajouter au panier</button><span class="coeur-icon">❤</span></div></div></div>
+            </div>
+        </section>
+        <!-- SECTION CITATION PROFESSIONNELLE -->
+        <section class="citation-section">
+            <span class="quote-icon">❝</span>
+            <blockquote>
+                La patience est un arbre dont la racine est amère et les fruits très doux.
+            </blockquote>
+            <span class="quote-icon">❞</span>
         </section>
     </main>
 
@@ -770,35 +991,41 @@
     <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Hamburger menu toggle
+            // Elements du menu mobile
             const hamburger = document.querySelector('.hamburger');
-            const mobileNav = document.querySelector('.mobile-nav');
+            const sidebar = document.querySelector('.sidebar');
+            const closeSidebar = document.querySelector('.close-sidebar');
+            const sidebarLinks = document.querySelectorAll('.sidebar nav a');
+            const overlay = document.querySelector('.overlay');
 
-            hamburger.addEventListener('click', function() {
-                mobileNav.classList.toggle('active');
-                this.textContent = mobileNav.classList.contains('active') ? '✖' : '☰';
-            });
+            // Fonction pour basculer le menu
+            function toggleMenu() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                hamburger.textContent = sidebar.classList.contains('active') ? '✕' : '☰';
+            }
 
-            // Close mobile nav when clicking a link
-            mobileNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileNav.classList.remove('active');
-                    hamburger.textContent = '☰';
-                });
+            // Ouvrir/fermer le menu
+            hamburger.addEventListener('click', toggleMenu);
+            closeSidebar.addEventListener('click', toggleMenu);
+            
+            // Fermer le menu quand on clique sur un lien
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
             });
+            
+            // Fermer le menu quand on clique sur l'overlay
+            overlay.addEventListener('click', toggleMenu);
 
             // Fonctionnalité de filtrage des produits
             const boutonsFiltres = document.querySelectorAll('.filtre-btn');
             const produits = document.querySelectorAll('.carte-produit');
             
-            buttons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Retirer la classe active de tous les boutons
+            boutonsFiltres.forEach(bouton => {
+                bouton.addEventListener('click', function() {
                     boutonsFiltres.forEach(b => b.classList.remove('actif'));
-                    // Ajouter la classe active au bouton cliqué
                     this.classList.add('actif');
                     
-                    // Filtrer les produits
                     const categorie = this.dataset.categorie;
                     
                     produits.forEach(produit => {
@@ -813,15 +1040,16 @@
             
             // Fonctionnalité d'ajout au panier
             const boutonsPanier = document.querySelectorAll('.ajouter-panier');
-            const compteurPanier = document.querySelector('.compteur-panier');
+            const compteursPanier = document.querySelectorAll('.compteur-panier');
             let nombreArticles = 0;
             
             boutonsPanier.forEach(bouton => {
                 bouton.addEventListener('click', function() {
                     nombreArticles++;
-                    compteurPanier.textContent = nombreArticles;
+                    compteursPanier.forEach(compteur => {
+                        compteur.textContent = nombreArticles;
+                    });
                     
-                    // Effet de confirmation
                     this.textContent = 'Ajouté !';
                     this.style.backgroundColor = '#4CAF50';
                     this.style.color = 'white';
